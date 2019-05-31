@@ -2,7 +2,12 @@ package com.meitu.sww.testform;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.URLSpan;
 
+import com.meitu.sww.testRunText.MarqueeView;
 import com.meitu.sww.testform.model.SpinnerNode;
 import com.meitu.sww.testform.spinner.SpinnerView;
 import com.meitu.sww.testform.spinner.SpinnerViewGroup;
@@ -11,12 +16,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private SpinnerView spinnerView;
     private SpinnerViewGroup spinnerViewGroup;
+    private MarqueeView marqueeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.layout_recycler);
         spinnerView = findViewById(R.id.spinner_show);
         spinnerViewGroup = findViewById(R.id.spinner_view_group);
+        marqueeView = findViewById(R.id.text_marquee);
 //        Log.e(TAG, "onCreate: "+createJSONObject() );
 //        Log.e(TAG, "onCreate: " + createSpinnerObject());
     }
@@ -127,6 +135,18 @@ public class MainActivity extends AppCompatActivity {
 //            public void run() {
 //                setNode();
         setRootNode();
+        List<CharSequence> list = new ArrayList<>();
+        SpannableString ss1 = new SpannableString("1、MarqueeView开源项目");
+        ss1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.red)), 2, 13, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        list.add(ss1);
+        SpannableString ss2 = new SpannableString("2、GitHub：sunfusheng");
+        ss2.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 9, 19, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        list.add(ss2);
+        SpannableString ss3 = new SpannableString("3、个人博客：sunfusheng.com");
+        ss3.setSpan(new URLSpan("http://sunfusheng.com/"), 7, 21, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        list.add(ss3);
+        list.add("4、新浪微博：@孙福生微博");
+        marqueeView.startWithList(list);
 //            }
 //        },1000);
     }
