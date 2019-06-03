@@ -27,6 +27,12 @@
         android:layout_centerVertical="true"
         />
 
+    <com.meitu.sww.testLinearGroup.FormLinear
+        android:id="@+id/testLinear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+
 
 
 </RelativeLayout>

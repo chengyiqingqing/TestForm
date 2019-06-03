@@ -6,6 +6,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
+import android.widget.LinearLayout;
 
 import com.meitu.sww.testRunText.MarqueeView;
 import com.meitu.sww.testform.model.SpinnerNode;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private SpinnerView spinnerView;
     private SpinnerViewGroup spinnerViewGroup;
     private MarqueeView marqueeView;
+//    private LinearLayout testLinear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
