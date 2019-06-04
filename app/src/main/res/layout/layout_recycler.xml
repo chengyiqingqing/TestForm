@@ -18,21 +18,46 @@
     <com.meitu.sww.testform.spinner.SpinnerViewGroup
         android:id="@+id/spinner_view_group"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <com.meitu.sww.testRunText.MarqueeView
-        android:id="@+id/text_marquee"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        />
+        android:visibility="gone"/>
 
     <com.meitu.sww.testLinearGroup.FormLinear
         android:id="@+id/testLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/linear_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <!--<com.meitu.sww.testRunText.MarqueeView
+            android:id="@+id/text_marquee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            />-->
+    </LinearLayout>
 
 
+
+    <!--<EditText
+        android:id="@+id/edit_input"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:hint="请输入姓名"
+        android:textSize="15sp"
+        android:background="@drawable/edit_text_border_style"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        />-->
+
+    <!--<com.meitu.sww.testEditText.TestEditText
+        android:id="@+id/edit_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>-->
 
 </RelativeLayout>

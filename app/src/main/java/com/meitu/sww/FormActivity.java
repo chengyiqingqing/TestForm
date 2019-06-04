@@ -1,6 +1,5 @@
 package com.meitu.sww;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +25,14 @@ public class FormActivity extends AppCompatActivity {
 
     private void initView() {
         formLinear = findViewById(R.id.form_linear);
-        formLinear.updateFormStyle(DeviceUtil.dip2px(10),DeviceUtil.dip2px(10), Color.YELLOW);
+        formLinear.updateFormStyle(DeviceUtil.dip2px(10), DeviceUtil.dip2px(10),
+                getResources().getColor(R.color.color_FFC128));
+        formLinear.updateChildView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }

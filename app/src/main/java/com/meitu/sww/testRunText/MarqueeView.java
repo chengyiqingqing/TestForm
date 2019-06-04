@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -22,9 +23,7 @@ import java.util.List;
 public class MarqueeView extends ViewFlipper {
 
     // 事件间隔
-    private int interval = 3000;
-    // 动画时长
-    private int animDuration = 1000;
+    private int interval = 2000;
     private int textSize = 14;
     private int textColor = 0xff000000;
     private boolean singleLine = true;
@@ -54,8 +53,7 @@ public class MarqueeView extends ViewFlipper {
      * @param messages     字符串列表
      */
     public void startWithList(List<CharSequence> messages) {
-        if (messages == null || messages.size() == 0) return;
-        this.messages = messages;
+        this.messages = getTestList();
         post(new Runnable() {
             @Override
             public void run() {
@@ -72,7 +70,10 @@ public class MarqueeView extends ViewFlipper {
             throw new RuntimeException("The messages cannot be empty!");
         }
         position = 0;
-        addView(createTextView(messages.get(position)));
+        for (int index = 0; index < messages.size(); index++) {
+            addView(createTextView(messages.get(index)));
+        }
+//        addView(createTextView(messages.get(position)));
 
         if (messages.size() > 1) {
             setInAndOutAnimation(inAnimResId, outAnimResId);
@@ -83,15 +84,15 @@ public class MarqueeView extends ViewFlipper {
             getInAnimation().setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
-                    if (isAnimStart) {
-                        animation.cancel();
-                    }
-                    isAnimStart = true;
+                    animation.cancel();
                 }
 
                 @Override
                 public void onAnimationEnd(Animation animation) {
-                    position++;
+                    View view = getChildAt(0);
+                    removeViewAt(0);
+                    addView(view);
+                    /*position++;
                     if (position >= messages.size()) {
                         position = 0;
                     }
@@ -99,7 +100,7 @@ public class MarqueeView extends ViewFlipper {
                     if (view.getParent() == null) {
                         addView(view);
                     }
-                    isAnimStart = false;
+                    isAnimStart = false;*/
                 }
 
                 @Override
@@ -110,25 +111,19 @@ public class MarqueeView extends ViewFlipper {
     }
 
     private TextView createTextView(CharSequence marqueeItem) {
-        TextView textView = (TextView) getChildAt((getDisplayedChild() + 1) % 3);
-        if (textView == null) {
-            textView = new TextView(getContext());
-            textView.setGravity(gravity | Gravity.CENTER_VERTICAL);
-            textView.setTextColor(textColor);
-            textView.setTextSize(textSize);
-            textView.setIncludeFontPadding(true);
-            textView.setSingleLine(singleLine);
-            if (singleLine) {
-                textView.setMaxLines(1);
-                textView.setEllipsize(TextUtils.TruncateAt.END);
-            }
+//        TextView textView = (TextView) getChildAt((getDisplayedChild() + 1) % 3);
+        TextView textView;
+        textView = new TextView(getContext());
+        textView.setGravity(gravity | Gravity.CENTER_VERTICAL);
+        textView.setTextColor(textColor);
+        textView.setTextSize(textSize);
+        textView.setIncludeFontPadding(true);
+        textView.setSingleLine(singleLine);
+        if (singleLine) {
+            textView.setMaxLines(1);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
         }
-        CharSequence message = "";
-        if (marqueeItem instanceof CharSequence) {
-            message = (CharSequence) marqueeItem;
-        }
-        textView.setText(message);
-        textView.setTag(position);
+        textView.setText(marqueeItem);
         return textView;
     }
 
@@ -140,11 +135,21 @@ public class MarqueeView extends ViewFlipper {
      */
     private void setInAndOutAnimation(@AnimRes int inAnimResId, @AnimRes int outAnimResID) {
         Animation inAnim = AnimationUtils.loadAnimation(getContext(), inAnimResId);
-        inAnim.setDuration(animDuration);
+//        inAnim.setDuration(animDuration);
+        inAnim.setInterpolator(new LinearInterpolator());
         setInAnimation(inAnim);
         Animation outAnim = AnimationUtils.loadAnimation(getContext(), outAnimResID);
-        outAnim.setDuration(animDuration);
+        outAnim.setInterpolator(new LinearInterpolator());
         setOutAnimation(outAnim);
+    }
+
+    private List<CharSequence> getTestList() {
+        List<CharSequence> list = new ArrayList<>();
+        list.add("1、MarqueeView");
+        list.add("2、滚动");
+        list.add("3、从右到左");
+        list.add("4、哈哈");
+        return list;
     }
 
 }

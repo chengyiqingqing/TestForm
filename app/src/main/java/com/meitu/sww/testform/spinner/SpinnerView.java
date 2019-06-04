@@ -7,6 +7,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -57,17 +58,18 @@ public class SpinnerView extends AppCompatTextView {
         recyclerView.setAdapter(spinnerAdapter);
         ViewUtil.addCorner(recyclerView, DeviceUtil.dip2px(1), getResources().getColor(R.color.colorWhite), DeviceUtil
                 .dip2px(1), getResources().getColor(R.color.colorBlack));
-        popupWindow = new PopupWindow(getContext());
-        popupWindow.setContentView(recyclerView);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        popupWindow.setWidth(width);
-        popupWindow.setHeight(DeviceUtil.dip2px(200));
         ViewUtil.addCorner(this, DeviceUtil.dip2px(1), getResources().getColor(R.color.colorWhite), DeviceUtil
                 .dip2px(1), getResources().getColor(R.color.colorBlack));
+
         setPadding(DeviceUtil.dip2px(5), 0, 0, 0);
-        setText("请选择");
+        setTextSize(TypedValue.COMPLEX_UNIT_SP, 8);
+        setHintTextColor(getResources().getColor(R.color.color_cccccc));
+        setTextColor(getResources().getColor(R.color.color_333333));
+        setPadding(DeviceUtil.dip2px(10), 0, DeviceUtil.dip2px(10), 0);
+//        setBackgroundResource(R.drawable.edit_text_border_style);
+        ViewUtil.addCorner(this, DeviceUtil.dip2px(4), getResources().getColor(R.color.colorWhite), 0
+                , 0);
+
     }
 
     private void initListener() {
@@ -88,22 +90,24 @@ public class SpinnerView extends AppCompatTextView {
         });
     }
 
-    public void layout(){
+    public void layout(int width, int height) {
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) getLayoutParams(); // 这样才不会清除掉
         layoutParams.width = width;
         layoutParams.height = height;
+        layoutParams.topMargin = DeviceUtil.dip2px(10);
         setLayoutParams(layoutParams);
         setGravity(Gravity.CENTER_VERTICAL);
+        popupWindow = new PopupWindow(getContext());
+        popupWindow.setContentView(recyclerView);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setWidth(width);
+        popupWindow.setHeight(DeviceUtil.dip2px(200));
     }
 
     public void updateViewByData(SpinnerNode node) {
         this.node = node;
-//        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) getLayoutParams(); // 这样才不会清除掉
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) getLayoutParams(); // 这样才不会清除掉
-        layoutParams.width = width;
-        layoutParams.height = height;
-        setLayoutParams(layoutParams);
-        setGravity(Gravity.CENTER_VERTICAL);
         spinnerAdapter.setArrayList(this.node.getNodes());
     }
 
@@ -113,7 +117,7 @@ public class SpinnerView extends AppCompatTextView {
         }else {
             updateViewByData(spinnerNode);
             setClickable(clickable);
-            setText("请选择");
+            setText(null);
         }
     }
 

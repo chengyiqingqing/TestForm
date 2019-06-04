@@ -41,17 +41,14 @@ public class SpinnerViewGroup extends FrameLayout {
         initListener();
     }
 
-    public void setRootNode(SpinnerNode rootNode, int allLevel) {
+    public void setRootNode(SpinnerNode rootNode, int allLevel, int width,int height) {
         this.rootNode = rootNode;
         this.allLevel = allLevel;
         if (rootNode == null || rootNode.getNodes() == null || rootNode.getNodes().size() == 0) {
             setVisibility(View.GONE);
         } else {
             firstSpinnerView.updateViewByData(rootNode);
-            firstSpinnerView.layout();
-            secondSpinnerView.layout();
-            thirdSpinnerView.layout();
-            firstSpinnerView.setClickable(true);
+            initChildView(width, height);
         }
     }
 
@@ -63,6 +60,27 @@ public class SpinnerViewGroup extends FrameLayout {
         firstSpinnerView.setClickable(false);
         secondSpinnerView.setClickable(false);
         thirdSpinnerView.setClickable(false);
+    }
+
+    public void initChildView(int width, int height) {
+        // TODO: 从rootNode中获取三节点的初始化显示 by ShaoWenWen 2019/6/4
+        if (allLevel == 1){
+            firstSpinnerView.setHint("请选择");
+            firstSpinnerView.layout(width, height);
+        } else if (allLevel == 2){
+            firstSpinnerView.setHint("请选择");
+            secondSpinnerView.setHint("请选择");
+            firstSpinnerView.layout(width, height);
+            secondSpinnerView.layout(width, height);
+        } else if (allLevel == 3){
+            firstSpinnerView.setHint("请选择");
+            secondSpinnerView.setHint("请选择");
+            thirdSpinnerView.setHint("请选择");
+            firstSpinnerView.layout(width, height);
+            secondSpinnerView.layout(width, height);
+            thirdSpinnerView.layout(width, height);
+        }
+        firstSpinnerView.setClickable(true);
     }
 
     private void initListener() {
@@ -104,6 +122,32 @@ public class SpinnerViewGroup extends FrameLayout {
         for (int index = arrayList.size() - 1; index > from; index--) {
             arrayList.remove(index);
         }
+    }
+
+    public void testRootNode(int level,int width,int height) {
+        SpinnerNode rootNode = new SpinnerNode();
+        ArrayList<SpinnerNode> firstList = new ArrayList<>();
+        for (int index = 0; index < 12; index++) {
+            SpinnerNode firstNode = new SpinnerNode();
+            firstNode.setValue("数据" + index);
+            ArrayList<SpinnerNode> secondList = new ArrayList<>();
+            for (int position = 0; position < 12; position++) {
+                SpinnerNode secondNode = new SpinnerNode();
+                secondNode.setValue("数据" + position);
+                ArrayList<SpinnerNode> thirdList = new ArrayList<>();
+                for (int i = 0; i < 12; i++) {
+                    SpinnerNode thirdNode = new SpinnerNode();
+                    thirdNode.setValue("数据" + i);
+                    thirdList.add(thirdNode);
+                }
+                secondNode.setNodes(thirdList);
+                secondList.add(secondNode);
+            }
+            firstNode.setNodes(secondList);
+            firstList.add(firstNode);
+        }
+        rootNode.setNodes(firstList);
+        this.setRootNode(rootNode, level, width, height);
     }
 
 }
